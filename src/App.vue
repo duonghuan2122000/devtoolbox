@@ -9,33 +9,45 @@ import UuidTool from './components/UuidTool.vue'
 import { toastMsg } from './utils/clipboard'
 
 const tabs = [
-  { id: 'qr', name: 'Tạo QR', comp: QrTool },
-  { id: 'hash', name: 'Hash / HMAC', comp: HashTool },
-  { id: 'b64', name: 'Base64 / URL', comp: Base64Tool },
-  { id: 'jwt', name: 'JWT', comp: JwtTool },
-  { id: 'json', name: 'JSON', comp: JsonTool },
-  { id: 'uuid', name: 'UUID / Random', comp: UuidTool },
+  { id: 'qr', name: 'Tạo QR', ic: '▣', comp: QrTool, desc: 'Tạo mã QR từ văn bản hoặc đường dẫn, xuất PNG/SVG.' },
+  { id: 'hash', name: 'Hash / HMAC', ic: '#', comp: HashTool, desc: 'Tính hash (MD5, SHA…) và HMAC cho văn bản.' },
+  { id: 'b64', name: 'Base64 / URL', ic: '≡', comp: Base64Tool, desc: 'Encode/decode Base64 và URL.' },
+  { id: 'jwt', name: 'JWT', ic: '⌁', comp: JwtTool, desc: 'Giải mã header/payload của JWT.' },
+  { id: 'json', name: 'JSON', ic: '{}', comp: JsonTool, desc: 'Format, minify và kiểm tra JSON.' },
+  { id: 'uuid', name: 'UUID / Random', ic: '◆', comp: UuidTool, desc: 'Sinh UUID và chuỗi ngẫu nhiên.' },
 ]
 const pick = id => tabs.find(t => t.id === id) ?? tabs[0]
 const current = ref(pick(location.hash.slice(1)).id)
-const select = id => { current.value = id; history.replaceState(null, '', '#' + id) }
+const railOpen = ref(false)
+const select = id => { current.value = id; history.replaceState(null, '', '#' + id); railOpen.value = false }
 addEventListener('hashchange', () => (current.value = pick(location.hash.slice(1)).id))
 </script>
 
 <template>
-  <header>
-    <h1>🧰 DevToolbox</h1>
-    <p>Bộ công cụ cho developer – mọi thứ chạy trên trình duyệt, dữ liệu không rời khỏi máy bạn.</p>
-  </header>
-  <nav>
-    <button v-for="t in tabs" :key="t.id" :class="{ on: t.id === current }" @click="select(t.id)">{{ t.name }}</button>
-  </nav>
-  <main>
-    <section class="panel">
-      <KeepAlive>
-        <component :is="pick(current).comp" />
-      </KeepAlive>
-    </section>
-  </main>
+  <div class="app">
+    <nav class="rail" :class="{ open: railOpen }">
+      <div class="brand"><span class="dot"></span>DevToolbox</div>
+      <button v-for="t in tabs" :key="t.id" :class="{ on: t.id === current }" @click="select(t.id)">
+        <span class="ic">{{ t.ic }}</span>{{ t.name }}
+      </button>
+    </nav>
+    <div class="main">
+      <div class="topbar">
+        <button class="menubtn" @click="railOpen = !railOpen">☰</button>
+        <header>
+          <h1>{{ pick(current).name }}</h1>
+          <p>{{ pick(current).desc }}</p>
+        </header>
+        <div class="badge"><span class="pulse"></span>Chạy 100% trên trình duyệt</div>
+      </div>
+      <main>
+        <section class="panel">
+          <KeepAlive>
+            <component :is="pick(current).comp" />
+          </KeepAlive>
+        </section>
+      </main>
+    </div>
+  </div>
   <div v-if="toastMsg" class="toast">{{ toastMsg }}</div>
 </template>
