@@ -1,10 +1,10 @@
 :root{--bg:#f5f6f8;--card:#fff;--card2:#eef0f3;--fg:#14181f;--mut:#5b6472;--bd:#dde1e6;--ac:#0f7a52;--ac-text:#1f9d6b;--ac2:#e3f5ec;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 @media(prefers-color-scheme:dark){:root{--bg:#0e1116;--card:#161b22;--card2:#1c2229;--fg:#e6e9ef;--mut:#8891a0;--bd:#2a313b;--ac:#1f9d6b;--ac-text:#2fd68f;--ac2:#123324}}
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body,#app{height:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 
-.app{display:flex;min-height:100%}
+.app{display:flex;height:100%}
 
 .rail{width:220px;flex:0 0 220px;background:var(--card);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:20px 12px;gap:4px}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 10px 18px;font-family:var(--mono);font-weight:700;font-size:15px}
@@ -16,7 +16,7 @@ nav button:hover{background:var(--card2);color:var(--fg)}
 nav button.on{background:var(--ac2);color:var(--ac-text);font-weight:600}
 nav button .ic{font-family:var(--mono);width:18px;text-align:center;flex:none}
 
-.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%;overflow:auto}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid var(--bd)}
 .menubtn{display:none;background:none;border:1px solid var(--bd);border-radius:8px;width:36px;height:36px;align-items:center;justify-content:center;color:var(--fg);cursor:pointer;font-size:15px}
 .badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);background:var(--card2);border:1px solid var(--bd);padding:6px 10px;border-radius:20px;white-space:nowrap}
